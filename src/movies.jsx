@@ -3,6 +3,7 @@ import { getMovies } from "./services/fakeMovieService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as fa } from "@fortawesome/free-regular-svg-icons";
+import Like from "./components/common/like";
 
 class Movies extends Component {
   state = {
@@ -14,7 +15,7 @@ class Movies extends Component {
     this.setState({ movies: movies });
   };
   handleLike = (movie) => {
-    console.log(movie.isLike);
+    console.log(movie);
     const movies = [...this.state.movies];
     const index = movies.indexOf(movie);
     movies[index] = { ...movie };
@@ -47,11 +48,12 @@ class Movies extends Component {
                     <td>{movie.numberInStock}</td>
                     <td>{movie.dailyRentalRate}</td>
                     <td>
-                      <span onClick={() => this.handleLike(movie)}>
+                      <Like onClick={this.handleLike} movie={movie} />
+                      {/* <span onClick={() => this.handleLike(movie)}>
                         <FontAwesomeIcon
                           icon={movie.isLike === true ? fa : faHeart}
                         />
-                      </span>
+                      </span> */}
                     </td>
                     <td>
                       <button

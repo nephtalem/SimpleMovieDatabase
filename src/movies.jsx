@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { getMovies } from "./services/fakeMovieService";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as fa } from "@fortawesome/free-regular-svg-icons";
 import Like from "./components/common/like";
+import Pagination from "./components/common/pagination";
+import { paginate } from "./utils/paginate";
 
 class Movies extends Component {
   state = {
     movies: getMovies(),
+    pageSize: 3,
+    currentPage: 1,
   };
 
   handleDelete = (movie) => {
@@ -22,8 +23,17 @@ class Movies extends Component {
     movies[index].isLike = !movies[index].isLike;
     this.setState({ movies });
   };
+  handlePageChange = (page) => {
+    this.setState({ currentPage: page });
+  };
 
   render() {
+    const paginateMovies = paginate(
+      this.state.movies,
+      this.state.currentPage,
+      this.state.pageSize
+    );
+
     return (
       <>
         {this.state.movies.length > 0 ? (
@@ -41,7 +51,7 @@ class Movies extends Component {
                 </tr>
               </thead>
               <tbody>
-                {this.state.movies.map((movie) => (
+                {paginateMovies.map((movie) => (
                   <tr key={movie._id}>
                     <td>{movie.title}</td>
                     <td>{movie.genre.name}</td>
@@ -49,11 +59,6 @@ class Movies extends Component {
                     <td>{movie.dailyRentalRate}</td>
                     <td>
                       <Like onClick={this.handleLike} movie={movie} />
-                      {/* <span onClick={() => this.handleLike(movie)}>
-                        <FontAwesomeIcon
-                          icon={movie.isLike === true ? fa : faHeart}
-                        />
-                      </span> */}
                     </td>
                     <td>
                       <button
@@ -67,6 +72,12 @@ class Movies extends Component {
                 ))}
               </tbody>
             </table>
+            <Pagination
+              itemsCount={this.state.movies.length}
+              pageSize={this.state.pageSize}
+              onPageChange={this.handlePageChange}
+              currentPage={this.state.currentPage}
+            />
           </>
         ) : (
           <h3>There are no movies in the database</h3>

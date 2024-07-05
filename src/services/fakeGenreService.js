@@ -1,14 +1,13 @@
 const genres = [
-  { _id: "1", name: "Action" },
-  { _id: "2", name: "Comedy" },
-  { _id: "3", name: "Drama" },
-  { _id: "4", name: "Thriller" },
+  { _id: "5b21ca3eeb7f6fbccd471818", name: "Action" },
+  { _id: "5b21ca3eeb7f6fbccd471814", name: "Comedy" },
+  { _id: "5b21ca3eeb7f6fbccd471829", name: "Thriller" },
 ];
 
 export function getGenres() {
-  return genres;
+  return genres.filter((g) => g);
 }
 
-export function getGenreById(id) {
-  return genres.find((genre) => genre._id === id);
-}
+// export function getGenreById(id) {
+//   return genres.find((genre) => genre._id === id);
+// }
